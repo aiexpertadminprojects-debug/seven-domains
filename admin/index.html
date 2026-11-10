@@ -62,18 +62,25 @@
           <label>Campaign ends<input type="date" id="promoEnd" required></label>
         </div>
         <div class="divider"></div>
-        <h3>Plan visibility</h3>
+        <h3>Public catalogue visibility</h3>
         <div class="form-grid">
           <label>Monthly Starter plan<select id="monthlyVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
           <label>Annual Starter plan<select id="annualVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
           <label>Founder Plan<select id="founderVisibility"><option value="private">Private — admin only</option><option value="public">Public — show on website</option></select></label>
         </div>
-        <p class="footnote">Founder Plan is set to Private by default. This setting is only a local preview until a backend-backed catalogue is connected.</p>
+        <p class="footnote">Founder Plan stays private by default. It is configured here in the protected Admin Panel and is not listed on the public homepage.</p>
         <div class="divider"></div>
         <h3>Annual hosting</h3>
         <div class="form-grid">
           <label>Introductory price (₹)<input type="number" id="annualIntro" min="1" required></label>
           <label>Regular renewal price (₹ / year)<input type="number" id="annualRegular" min="1" required></label>
+        </div>
+        <div class="divider"></div>
+        <h3>Founder Plan management · Admin only</h3>
+        <p class="hint">Private founder-only offer. It is not displayed in the public hosting catalogue.</p>
+        <div class="form-grid">
+          <label>Founder monthly price after free period (₹)<input type="number" id="founderMonthly" min="0" required></label>
+          <label>Founder yearly price after free period (₹)<input type="number" id="founderAnnual" min="0" required></label>
           <label>Founder websites allowed<input type="number" id="founderSites" min="1" max="50" required></label>
           <label>Founder free period (months)<input type="number" id="founderFree" min="0" max="24" required></label>
         </div>
