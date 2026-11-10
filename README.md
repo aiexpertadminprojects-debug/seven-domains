@@ -37,3 +37,7 @@ This is a frontend prototype, not a live registrar or hosting control panel.
 
 ## Brand
 Seven Domains — Your Digital World Starts Here.
+
+
+## Contact
+Business contact email: seveninkdigitaldevelopers@gmail.com
