@@ -76,6 +76,28 @@
           <label>Regular renewal price (₹ / year)<input type="number" id="annualRegular" min="1" required></label>
         </div>
         <div class="divider"></div>
+        <h3>Individual Hosting · Admin configuration</h3>
+        <div class="form-grid">
+          <label>Introductory price (₹)<input type="number" id="individualIntro" min="0" required></label>
+          <label>Intro duration (months)<input type="number" id="individualDuration" min="1" max="24" required></label>
+          <label>Websites allowed<input type="number" id="individualSites" min="1" max="10" required></label>
+          <label>Domains allowed<input type="number" id="individualDomains" min="1" max="10" required></label>
+          <label>Storage (GB)<input type="number" id="individualStorage" min="1" required></label>
+          <label>Renewal price (₹ / 6 months; 0 = not set)<input type="number" id="individualRenewal" min="0" required></label>
+          <label>Public visibility<select id="individualVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+        </div>
+        <div class="divider"></div>
+        <h3>Business / CMS Hosting · Admin configuration</h3>
+        <p class="hint">For WordPress, MediaWiki and custom dynamic applications. Confirm all runtimes and resource limits with the provider before enabling sales.</p>
+        <div class="form-grid">
+          <label>Introductory monthly price (₹)<input type="number" id="businessIntro" min="0" required></label>
+          <label>Intro duration (months)<input type="number" id="businessDuration" min="1" max="24" required></label>
+          <label>Regular monthly price (₹)<input type="number" id="businessRegular" min="0" required></label>
+          <label>Business email accounts<input type="number" id="businessEmails" min="0" required></label>
+          <label>Public visibility<select id="businessVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+        </div>
+        <div class="footnote"><b>Requested Business features:</b> cPanel; JavaScript / Node.js; Python; PHP; WordPress and MediaWiki compatibility; MySQL / MariaDB databases; SSL; DNS management; backups; cron / scheduled tasks; SSH / SFTP where supported. These are requirements, not confirmed active services.</div>
+        <div class="divider"></div>
         <h3>Founder Plan management · Admin only</h3>
         <p class="hint">Private founder-only offer. It is not displayed in the public hosting catalogue.</p>
         <div class="form-grid">
