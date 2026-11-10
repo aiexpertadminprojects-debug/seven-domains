@@ -1,8 +1,15 @@
-Seven Domains — Restricted Area update
+SEVEN DOMAINS — HOSTING PLANS UPDATE
 
-Upload these files to your GitHub repository, keeping folder paths exactly as shown:
-1. index.html — replace the existing homepage at repository root.
-2. restricted-area.html — add this new file at repository root.
-3. admin/index.html — replace the existing admin panel file.
+Replace these files in the repository (main branch) while keeping the folder paths:
+1. index.html
+2. admin/index.html
+3. assets/admin.js
 
-Do not replace functions/_middleware.js or your Cloudflare secrets. The existing server-side password protection is reused. After commit and deployment: open homepage → three-dot menu → Restricted Area → enter your existing ADMIN_PASSWORD. The admin panel will open. Use Logout inside the admin panel to end the session.
+Changes:
+- Starter monthly: ₹99/month, 1 website, 10 GB NVMe; existing 3-month intro then ₹149/month retained.
+- Starter yearly: ₹999/year, 6 websites, 60 GB NVMe; existing first-year then ₹1,499/year retained.
+- Individual: ₹50 for 6 months, 1 website, 1 domain, 20 GB; renewal is intentionally unset (0) until owner confirms.
+- Business/CMS: ₹500/month for 6 months, then ₹1,500/month; 10 business email accounts; cPanel; requested JavaScript/Node.js, Python, PHP, WordPress/MediaWiki, MySQL/MariaDB, SSL, DNS, backups, cron, SSH/SFTP, Git and Composer support.
+- Founder Plan remains off the public homepage and remains in the Admin-only configuration section.
+
+IMPORTANT: Admin settings currently save to this browser's localStorage only. They do not publish changes to the live storefront or create real hosting capacity. Provider must confirm cPanel, runtimes, databases, email, storage, backup and resource limits before the plans are sold. No unlimited customer accounts are advertised.
