@@ -1,5 +1,5 @@
-import {json,fail,bodyJson,originOk,audit} from "../../lib/security.js";
-import {requireAdmin} from "../../lib/auth.js";
+import {json,fail,bodyJson,originOk,audit} from "../../../lib/security.js";
+import {requireAdmin} from "../../../lib/auth.js";
 export async function onRequestPatch({request,env,params}) {
  if(!originOk(request,env))return fail("Invalid origin",403);
  const a=await requireAdmin(request,env);if(a.response)return a.response;
