@@ -10,6 +10,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
+
+<style>
+.restricted-menu-wrap{position:relative;display:inline-flex;align-items:center;margin-left:4px}
+.restricted-menu-button{width:38px;height:38px;border:1px solid rgba(16,27,45,.14);border-radius:11px;background:transparent;color:inherit;font-size:25px;line-height:1;cursor:pointer}
+.restricted-menu-button:hover,.restricted-menu-button:focus-visible{background:rgba(16,27,45,.07);outline:2px solid #10b981;outline-offset:2px}
+.restricted-menu{position:absolute;z-index:1000;right:0;top:calc(100% + 9px);min-width:175px;padding:7px;background:#fff;border:1px solid #e5eaf0;border-radius:12px;box-shadow:0 12px 35px rgba(16,27,45,.18)}
+.restricted-menu[hidden]{display:none}
+.restricted-menu a{display:block;padding:11px 12px;border-radius:8px;color:#101b2d;text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.restricted-menu a:hover{background:#eefbf6;color:#087b57}
+@media(max-width:760px){.restricted-menu-wrap{margin-left:2px}.restricted-menu-button{width:35px;height:35px}}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -19,7 +30,7 @@
     <nav class="main-nav" id="mainNav">
       <a href="domains.html">Domains</a><a href="hosting.html">Web Hosting</a><a href="#features">Why Seven</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="#faq">Help</a>
     </nav>
-    <div class="nav-actions"><a class="login-link" href="#dashboard">Log in</a><a class="button button-small button-dark" href="#domains">Get started <span>↗</span></a></div>
+    <div class="nav-actions"><a class="login-link" href="#dashboard">Log in</a><a class="button button-small button-dark" href="#domains">Get started <span>↗</span></a><div class="restricted-menu-wrap"><button class="restricted-menu-button" id="restrictedMenuButton" type="button" aria-label="More options" aria-expanded="false" aria-controls="restrictedMenu">⋮</button><div class="restricted-menu" id="restrictedMenu" hidden><a href="/restricted-area.html">Restricted Area</a></div></div></div>
   </div>
 </header>
 
@@ -129,7 +140,11 @@
 
 <section class="cta-section" id="contact"><div class="container cta-inner"><div><div class="eyebrow">YOUR IDEA DESERVES A HOME</div><h2>Let’s build something<br><em>worth visiting.</em></h2></div><a class="button button-green" href="mailto:seveninkdigitaldevelopers@gmail.com">Contact Seven Domains <span>↗</span></a></div></section>
 </main>
-<footer class="footer"><div class="container footer-main"><div><a class="brand brand-footer" href="/"><span class="brand-mark">7</span><span>SEVEN<span class="brand-light">DOMAINS</span></span></a><p>Domains, hosting and the tools to grow your digital presence.</p><a href="mailto:seveninkdigitaldevelopers@gmail.com" class="footer-email">seveninkdigitaldevelopers@gmail.com</a></div><div><b>Explore</b><a href="domains.html">Domains</a><a href="hosting.html">Web Hosting</a><a href="#features">Why Seven</a></div><div><b>Company</b><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="#faq">Help Center</a></div><div><b>Legal & Policies</b><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="refund-policy.html">Refund Policy</a><a href="cookie-policy.html">Cookie Policy</a><a href="disclaimer.html">Disclaimer</a></div></div><div class="container footer-bottom"><span>© <span id="year"></span> Seven Domains. All rights reserved.</span><span>Designed for your next digital chapter.</span><a href="/admin/" aria-label="Administrator login" style="font-size:11px;opacity:.58;text-decoration:none;margin-left:12px;">Admin Login</a></div></footer>
+<footer class="footer"><div class="container footer-main"><div><a class="brand brand-footer" href="/"><span class="brand-mark">7</span><span>SEVEN<span class="brand-light">DOMAINS</span></span></a><p>Domains, hosting and the tools to grow your digital presence.</p><a href="mailto:seveninkdigitaldevelopers@gmail.com" class="footer-email">seveninkdigitaldevelopers@gmail.com</a></div><div><b>Explore</b><a href="domains.html">Domains</a><a href="hosting.html">Web Hosting</a><a href="#features">Why Seven</a></div><div><b>Company</b><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="#faq">Help Center</a></div><div><b>Legal & Policies</b><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms & Conditions</a><a href="refund-policy.html">Refund Policy</a><a href="cookie-policy.html">Cookie Policy</a><a href="disclaimer.html">Disclaimer</a></div></div><div class="container footer-bottom"><span>© <span id="year"></span> Seven Domains. All rights reserved.</span><span>Designed for your next digital chapter.</span></div></footer>
 <script src="/assets/app.js"></script>
+<script>
+(()=>{const button=document.getElementById('restrictedMenuButton');const menu=document.getElementById('restrictedMenu');if(!button||!menu)return;button.addEventListener('click',()=>{const opening=menu.hidden;menu.hidden=!opening;button.setAttribute('aria-expanded',String(opening));});document.addEventListener('click',event=>{if(!event.target.closest('.restricted-menu-wrap')){menu.hidden=true;button.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',event=>{if(event.key==='Escape'){menu.hidden=true;button.setAttribute('aria-expanded','false');button.focus();}});})();
+</script>
+
 </body>
 </html>

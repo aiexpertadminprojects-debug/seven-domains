@@ -1,0 +1,8 @@
+Seven Domains — Restricted Area update
+
+Upload these files to your GitHub repository, keeping folder paths exactly as shown:
+1. index.html — replace the existing homepage at repository root.
+2. restricted-area.html — add this new file at repository root.
+3. admin/index.html — replace the existing admin panel file.
+
+Do not replace functions/_middleware.js or your Cloudflare secrets. The existing server-side password protection is reused. After commit and deployment: open homepage → three-dot menu → Restricted Area → enter your existing ADMIN_PASSWORD. The admin panel will open. Use Logout inside the admin panel to end the session.
