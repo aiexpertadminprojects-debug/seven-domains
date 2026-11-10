@@ -98,6 +98,26 @@
         </div>
         <div class="footnote"><b>Requested Business features:</b> cPanel; JavaScript / Node.js; Python; PHP; WordPress and MediaWiki compatibility; MySQL / MariaDB databases; SSL; DNS management; backups; cron / scheduled tasks; SSH / SFTP where supported. These are requirements, not confirmed active services.</div>
         <div class="divider"></div>
+        <h3>Pro Cloud Hosting · Admin configuration</h3>
+        <div class="form-grid">
+          <label>Monthly price (₹)<input type="number" id="proPrice" min="0" required></label>
+          <label>Websites allowed<input type="number" id="proSites" min="1" required></label>
+          <label>Storage (GB)<input type="number" id="proStorage" min="1" required></label>
+          <label>Business email accounts<input type="number" id="proEmails" min="0" required></label>
+          <label>Public visibility<select id="proVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+        </div>
+        <p class="footnote">Requested Pro features: cPanel, Node.js, Python, PHP, databases, WordPress / MediaWiki, backups and enhanced security. Provider confirmation required.</p>
+        <div class="divider"></div>
+        <h3>Agency / Reseller Hosting · Admin configuration</h3>
+        <div class="form-grid">
+          <label>Monthly price (₹)<input type="number" id="agencyPrice" min="0" required></label>
+          <label>Websites allowed<input type="number" id="agencySites" min="1" required></label>
+          <label>Storage (GB)<input type="number" id="agencyStorage" min="1" required></label>
+          <label>Business email accounts<input type="number" id="agencyEmails" min="0" required></label>
+          <label>Public visibility<select id="agencyVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+        </div>
+        <p class="footnote">Requested Agency features: WHM/reseller tools, separate cPanel accounts, client isolation, supported runtimes and backups. Confirm with provider before advertising.</p>
+        <div class="divider"></div>
         <h3>Founder Plan management · Admin only</h3>
         <p class="hint">Private founder-only offer. It is not displayed in the public hosting catalogue.</p>
         <div class="form-grid">
