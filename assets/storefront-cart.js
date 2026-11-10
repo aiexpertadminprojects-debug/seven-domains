@@ -31,10 +31,14 @@
   }
 
   const cards = [...document.querySelectorAll(".plan-card")].filter(card => !card.classList.contains("founder-card"));
-  cards.forEach((card, index) => {
+  cards.forEach((card) => {
     const button = card.querySelector("a.button");
     if (!button) return;
-    const annual = card.classList.contains("plan-featured") || /YEARLY|ANNUAL/i.test(card.textContent);
+    const isAnnual = /YEARLY|ANNUAL/i.test(card.textContent);
+    const isMonthlyStarter = /MONTHLY/i.test(card.textContent) && /Starter Hosting/i.test(card.textContent);
+    const isAnnualStarter = isAnnual && /Starter Hosting/i.test(card.textContent);
+    if (!isMonthlyStarter && !isAnnualStarter) return;
+    const annual = isAnnualStarter;
     const item = annual
       ? {id:"hosting-annual", name:"Starter Hosting — Annual", price:999, period:"year", note:"Introductory first year; proposed renewal ₹1,499/year"}
       : {id:"hosting-monthly", name:"Starter Hosting — Monthly", price:99, period:"month", note:"Introductory first 3 billing cycles; proposed renewal ₹149/month"};
