@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b2d"><title>Your Cart — Seven Domains</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css"><link rel="stylesheet" href="/assets/cart.css">
+</head>
+<body>
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="/" aria-label="Seven Domains home"><span class="brand-mark">7</span><span>SEVEN<span class="brand-light">DOMAINS</span></span></a>
+<nav class="main-nav"><a href="/domains.html">Domains</a><a href="/hosting.html">Web Hosting</a><a href="/">Home</a></nav>
+<div class="nav-actions"><a class="button button-small button-dark" href="/">Continue shopping</a></div>
+</div></header>
+<main class="cart-main container">
+<div class="eyebrow eyebrow-green">YOUR SELECTION</div><h1 class="cart-title">Shopping <em>cart.</em></h1>
+<div class="cart-layout">
+<section class="cart-panel"><div class="cart-heading"><h2>Cart items</h2><span id="itemCount">0 items</span></div><div id="cartItems"></div><div class="empty-cart" id="emptyCart"><div class="empty-icon">🛒</div><h3>Your cart is empty</h3><p>Choose a hosting plan to get started.</p><a class="button button-green" href="/#hosting">Browse hosting plans →</a></div></section>
+<aside class="summary-panel"><h2>Order summary</h2><div class="summary-line"><span>Subtotal</span><b id="subtotal">₹0</b></div><div class="summary-line"><span>Taxes</span><b>Calculated at checkout</b></div><div class="summary-total"><span>Estimated total</span><b id="total">₹0</b></div><p class="summary-note">Prices shown are introductory proposal prices. The next renewal price and date must be disclosed and accepted before any real checkout.</p><button class="button button-green checkout-btn" id="checkoutBtn" disabled>Continue to enquiry →</button><a class="back-link" href="/#hosting">← Continue shopping</a></aside>
+</div>
+<div class="cart-disclaimer">Cart preview only. No payment is collected and no hosting service is activated. Live checkout will require a secure backend, confirmed hosting provider, taxes and payment-gateway integration.</div>
+</main>
+<footer class="footer"><div class="container footer-bottom"><span>© <span id="year"></span> Seven Domains</span><a href="/privacy-policy.html">Privacy Policy</a></div></footer>
+<script src="/assets/cart.js"></script>
+</body></html>
