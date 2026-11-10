@@ -1,15 +1,22 @@
-SEVEN DOMAINS — HOSTING PLANS UPDATE
+SEVEN DOMAINS — SIX-PLAN CATALOGUE UPDATE
 
-Replace these files in the repository (main branch) while keeping the folder paths:
-1. index.html
-2. admin/index.html
-3. assets/admin.js
+This package is a full project ZIP based on the supplied repository snapshot. It preserves the existing pages, restricted-area middleware, cart, legal pages and assets.
 
-Changes:
-- Starter monthly: ₹99/month, 1 website, 10 GB NVMe; existing 3-month intro then ₹149/month retained.
-- Starter yearly: ₹999/year, 6 websites, 60 GB NVMe; existing first-year then ₹1,499/year retained.
-- Individual: ₹50 for 6 months, 1 website, 1 domain, 20 GB; renewal is intentionally unset (0) until owner confirms.
-- Business/CMS: ₹500/month for 6 months, then ₹1,500/month; 10 business email accounts; cPanel; requested JavaScript/Node.js, Python, PHP, WordPress/MediaWiki, MySQL/MariaDB, SSL, DNS, backups, cron, SSH/SFTP, Git and Composer support.
-- Founder Plan remains off the public homepage and remains in the Admin-only configuration section.
+Changed files:
+- index.html: adds Pro Cloud and Agency/Reseller cards; keeps Founder Plan off public catalogue.
+- admin/index.html: adds Pro Cloud and Agency plan settings.
+- assets/admin.js: stores new plan defaults/settings in browser localStorage.
+- assets/storefront-cart.js: only Starter Monthly/Yearly plans are added to the current enquiry cart; other plans link to contact.
 
-IMPORTANT: Admin settings currently save to this browser's localStorage only. They do not publish changes to the live storefront or create real hosting capacity. Provider must confirm cPanel, runtimes, databases, email, storage, backup and resource limits before the plans are sold. No unlimited customer accounts are advertised.
+Default catalogue (proposed, not provider-confirmed):
+1. Starter Monthly ₹99/month; 1 site; 10 GB NVMe; proposed renewal ₹149/month.
+2. Starter Yearly ₹999/year; 6 sites; 60 GB NVMe; proposed renewal ₹1,499/year.
+3. Individual ₹50/6 months; 1 site; 1 domain; 20 GB; renewal price unset.
+4. Business ₹500/month for 6 months, then ₹1,500/month; 10 business email accounts; cPanel and runtimes required.
+5. Pro Cloud ₹2,500/month; 10 sites; 100 GB; 25 email accounts.
+6. Agency/Reseller ₹4,999/month; 25 sites; 200 GB; 50 email accounts; WHM/reseller capability required.
+Founder offer remains admin-only/private.
+
+IMPORTANT: Admin settings are browser-local draft settings, not server/database persistence. Public card visibility is currently edited in source code; the visibility controls are not yet wired to a secure backend. Do not treat requested cPanel, WHM, Python, Node.js, backup, email or storage specifications as live services until confirmed with the hosting provider. Prices are proposals, not checkout prices. Payment, registrar, hosting provisioning and tax calculations are not connected.
+
+Deploy by replacing the repository files with this package, preserving Cloudflare Pages Functions. After deployment, test /admin/ in an incognito window and verify middleware password protection remains active.
