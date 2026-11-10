@@ -1,4 +1,4 @@
-import { checkDomainAvailability } from "../../lib/registrar.js";
+import { checkDomainAvailability } from "../../../lib/registrar.js";
 
 const headers = {
   "content-type":"application/json; charset=utf-8",
