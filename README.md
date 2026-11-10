@@ -39,5 +39,7 @@ This is a frontend prototype, not a live registrar or hosting control panel.
 Seven Domains — Your Digital World Starts Here.
 
 
-## Contact
-Business contact email: seveninkdigitaldevelopers@gmail.com
+## Phase 1 information pages and navigation
+The homepage navigation and footer now link to the standalone pages: Domains, Hosting, About Us, Contact Us, Privacy Policy, Terms & Conditions, Refund Policy, Cookie Policy and Disclaimer. The matching HTML pages and `assets/phase1-pages.css` are included in this package.
+
+The proposed hosting prices are shown as introductory offers only: ₹99/month for the first 3 months then ₹149/month; ₹999/year for the first year then ₹1,499/year. These are not live checkout prices. Confirm provider costs, taxes, service limits and legal terms before accepting orders.
