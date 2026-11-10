@@ -1,1 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101b2d">
+<title>Seven Domains — Admin Console Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="/"><span class="mark">7</span><span>SEVEN<strong>DOMAINS</strong></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="overview"><span>▦</span> Overview</button>
+    <button class="nav-item" data-view="hosting"><span>◫</span> Hosting plans</button>
+    <button class="nav-item" data-view="domains"><span>◎</span> Domain pricing</button>
+    <button class="nav-item" data-view="security"><span>◇</span> Security centre</button>
+    <div class="side-bottom">
+      <div class="preview-tag">PREVIEW MODE</div>
+      <a href="/">← Back to website</a>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰</button>
+      <div><small>SEVEN DOMAINS / ADMIN</small><h1 id="pageTitle">Overview</h1></div>
+      <div class="admin-user"><span class="avatar">A</span><span>Admin preview</span></div>
+    </header>
+    <div class="notice"><b>Prototype only</b><span>Settings save in this browser only. No customer accounts, payments, registrar, hosting provider or production backend is connected.</span></div>
 
+    <section class="view active" id="view-overview">
+      <div class="welcome"><div><div class="eyebrow">CONTROL CENTRE</div><h2>Good day, Admin.</h2><p>Here is the current configuration preview for Seven Domains.</p></div><span class="date-chip" id="today"></span></div>
+      <div class="stats">
+        <article class="stat"><span>Customers</span><b>—</b><small>Backend not connected</small></article>
+        <article class="stat"><span>Active orders</span><b>—</b><small>Order system not connected</small></article>
+        <article class="stat"><span>Hosting services</span><b>—</b><small>Provisioning not connected</small></article>
+        <article class="stat"><span>Payment status</span><b class="muted-value">Not connected</b><small>Do not accept payments yet</small></article>
+      </div>
+      <div class="grid-two">
+        <article class="panel"><div class="panel-head"><div><h3>Promotion status</h3><p>Calculated from your local campaign dates</p></div><span class="tag" id="promoStatus">—</span></div>
+          <div class="promo-prices"><div><small>MONTHLY INTRO</small><b id="overviewMonthly">₹99</b><span>then ₹149/month</span></div><div><small>ANNUAL INTRO</small><b id="overviewAnnual">₹999</b><span>then ₹1,499/year</span></div></div>
+          <p class="hint" id="promoHint">Set campaign dates in Hosting Plans.</p>
+        </article>
+        <article class="panel"><div class="panel-head"><div><h3>Launch checklist</h3><p>Production readiness</p></div></div>
+          <ul class="checklist"><li><i class="pending"></i> Secure admin authentication</li><li><i class="pending"></i> Database and audit log</li><li><i class="pending"></i> Payment gateway + verified webhooks</li><li><i class="pending"></i> Registrar and hosting APIs</li><li><i class="pending"></i> Security integrations</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="view-hosting">
+      <div class="section-intro"><div><div class="eyebrow">PRODUCT CONFIGURATION</div><h2>Hosting plans & offers</h2><p>Edit the proposed prices and campaign dates. Changes remain local to this browser.</p></div><span class="tag amber">Draft pricing</span></div>
+      <form id="hostingForm" class="panel form-panel">
+        <h3>Monthly hosting</h3>
+        <div class="form-grid">
+          <label>Introductory price (₹)<input type="number" id="monthlyIntro" min="1" required></label>
+          <label>Regular price (₹ / month)<input type="number" id="monthlyRegular" min="1" required></label>
+          <label>Intro duration (billing cycles)<input type="number" id="monthlyCycles" min="1" max="24" required></label>
+          <label>Campaign starts<input type="date" id="promoStart" required></label>
+          <label>Campaign ends<input type="date" id="promoEnd" required></label>
+        </div>
+        <div class="divider"></div>
+        <h3>Plan visibility</h3>
+        <div class="form-grid">
+          <label>Monthly Starter plan<select id="monthlyVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+          <label>Annual Starter plan<select id="annualVisibility"><option value="public">Public — show on website</option><option value="private">Private — hide from public</option></select></label>
+          <label>Founder Plan<select id="founderVisibility"><option value="private">Private — admin only</option><option value="public">Public — show on website</option></select></label>
+        </div>
+        <p class="footnote">Founder Plan is set to Private by default. This setting is only a local preview until a backend-backed catalogue is connected.</p>
+        <div class="divider"></div>
+        <h3>Annual hosting</h3>
+        <div class="form-grid">
+          <label>Introductory price (₹)<input type="number" id="annualIntro" min="1" required></label>
+          <label>Regular renewal price (₹ / year)<input type="number" id="annualRegular" min="1" required></label>
+          <label>Founder websites allowed<input type="number" id="founderSites" min="1" max="50" required></label>
+          <label>Founder free period (months)<input type="number" id="founderFree" min="0" max="24" required></label>
+        </div>
+        <div class="price-preview" id="pricePreview"></div>
+        <div class="actions"><button class="btn primary" type="submit">Save draft settings</button><button class="btn secondary" type="button" id="resetHosting">Reset defaults</button></div>
+        <p class="footnote">Important: This preview does not change prices shown to customers or charge anyone. In production, the backend must store each customer's introductory eligibility, start date and billing-cycle count. Renewal price and date must be disclosed before checkout and accepted by the customer.</p>
+      </form>
+    </section>
+
+    <section class="view" id="view-domains">
+      <div class="section-intro"><div><div class="eyebrow">TLD CATALOGUE</div><h2>Domain pricing</h2><p>Enter provider-verified prices for each extension. Values are draft-only.</p></div><span class="tag amber">Provider rates pending</span></div>
+      <form class="panel" id="domainForm">
+        <div class="table-wrap"><table><thead><tr><th>Extension</th><th>Registration (₹/yr)</th><th>Renewal (₹/yr)</th><th>Transfer (₹)</th><th>Status</th></tr></thead><tbody id="tldRows"></tbody></table></div>
+        <div class="actions"><button class="btn primary" type="submit">Save domain draft</button><button class="btn secondary" type="button" id="resetDomains">Reset</button></div>
+        <p class="footnote">Do not publish or sell these prices until wholesale rates, taxes, currency conversion, premium-domain rules and registrar fees are confirmed.</p>
+      </form>
+    </section>
+
+    <section class="view" id="view-security">
+      <div class="section-intro"><div><div class="eyebrow">SERVICE PROTECTION</div><h2>Security centre</h2><p>Track the integrations required before making security promises to customers.</p></div><span class="tag red">Not yet integrated</span></div>
+      <div class="security-grid">
+        <article class="panel security-card"><span class="security-icon">⌁</span><div><h3>DNSSEC</h3><p>DNS response authenticity validation, where supported by registrar and DNS provider.</p><span class="status pending">Not connected</span></div></article>
+        <article class="panel security-card"><span class="security-icon">⌂</span><div><h3>WAF / DDoS protection</h3><p>Web application firewall and network-layer mitigation through a configured provider.</p><span class="status pending">Not connected</span></div></article>
+        <article class="panel security-card"><span class="security-icon">⌕</span><div><h3>Malware scanning</h3><p>Scheduled file scanning, quarantine workflow and customer alerts.</p><span class="status pending">Not connected</span></div></article>
+        <article class="panel security-card"><span class="security-icon">⟲</span><div><h3>Backups & restore</h3><p>Automated backups, retention policy and tested restore process.</p><span class="status pending">Not connected</span></div></article>
+        <article class="panel security-card"><span class="security-icon">▣</span><div><h3>Admin MFA</h3><p>Multi-factor authentication, role-based access and login audit trail.</p><span class="status pending">Not connected</span></div></article>
+        <article class="panel security-card"><span class="security-icon">▤</span><div><h3>Domain lock</h3><p>Registrar-level transfer lock and change alerts where available.</p><span class="status pending">Not connected</span></div></article>
+      </div>
+      <div class="panel security-note"><b>Security note:</b> DNSSEC helps protect DNS integrity; it does not scan website files or remove malware. Malware scanning, WAF, backups and account security are separate controls and need separate integrations.</div>
+    </section>
+    <footer>Seven Domains · Admin console preview · <a href="/">Return to website</a></footer>
+  </main>
+</div>
+<script src="/assets/admin.js"></script>
+</body>
+</html>
