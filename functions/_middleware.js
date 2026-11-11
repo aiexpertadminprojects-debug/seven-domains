@@ -31,6 +31,11 @@ function page(message="") {
 function html(body,status=200) {
   return new Response(body,{status,headers:{"Content-Type":"text/html; charset=utf-8","Cache-Control":"no-store","X-Content-Type-Options":"nosniff","Referrer-Policy":"no-referrer"}});
 }
+function jsonErr(error,status) {
+  return new Response(JSON.stringify({ok:false,error}),{status,headers:{
+    "Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store",
+    "X-Content-Type-Options":"nosniff","Referrer-Policy":"same-origin"}});
+}
 async function valid(request,secret) {
   const token=cookie(request), dot=token.indexOf(".");
   if(dot<1) return false;
@@ -40,9 +45,16 @@ async function valid(request,secret) {
 }
 export async function onRequest({request,env,next}) {
   const url=new URL(request.url), path=url.pathname;
+  // Legacy registrar route was outside /admin/* (unauthenticated). Permanently blocked.
+  const lower=path.toLowerCase();
+  if(lower==="/api/admin/registrar"||lower.startsWith("/api/admin/registrar/"))
+    return jsonErr("Not found.",404);
   if(path!=="/admin"&&!path.startsWith("/admin/")) return next();
-  if(!env.ADMIN_PASSWORD||!env.ADMIN_SESSION_SECRET)
+  const isApi=path.startsWith("/admin/api/");
+  if(!env.ADMIN_PASSWORD||!env.ADMIN_SESSION_SECRET) {
+    if(isApi) return jsonErr("Admin protection is not configured.",503);
     return html("<h1>Admin protection is not configured</h1><p>Set ADMIN_PASSWORD and ADMIN_SESSION_SECRET as Cloudflare Pages secrets, then redeploy.</p>",503);
+  }
 
   if(path==="/admin/login"&&request.method==="GET") return html(page());
   if(path==="/admin/login"&&request.method==="POST") {
@@ -59,9 +71,16 @@ export async function onRequest({request,env,next}) {
     "Location":"/admin/login","Cache-Control":"no-store",
     "Set-Cookie":`${COOKIE}=; HttpOnly; Secure; SameSite=Strict; Path=/admin; Max-Age=0`
   }});
-  if(!(await valid(request,env.ADMIN_SESSION_SECRET)))
+  if(!(await valid(request,env.ADMIN_SESSION_SECRET))) {
+    if(isApi) return jsonErr("Authentication required.",401);
     return new Response(null,{status:302,headers:{"Location":"/admin/login","Cache-Control":"no-store"}});
-  const response=await next(), headers=new Headers(response.headers);
+  }
+  let response;
+  try { response=await next(); }
+  catch(error) { if(isApi) return jsonErr("Internal server error.",500); throw error; }
+  if(isApi&&!(response.headers.get("Content-Type")||"").toLowerCase().includes("application/json"))
+    return jsonErr(response.status===404?"API route not found.":"Unexpected non-JSON API response.",response.status>=400?response.status:502);
+  const headers=new Headers(response.headers);
   headers.set("Cache-Control","no-store"); headers.set("X-Content-Type-Options","nosniff");
   return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }
