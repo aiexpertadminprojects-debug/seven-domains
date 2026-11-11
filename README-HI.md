@@ -1,55 +1,35 @@
-# Seven Domains — Registrar Foundation (Phase 4)
+# Seven Domains — Phase 5: Independent Registrar Core
 
-यह package registrar integration की सुरक्षित foundation है। यह अभी किसी वास्तविक
-registrar से जुड़ा नहीं है। Provider चुने और उसकी official API mapping तैयार किए
-बिना live availability, कीमत या registration संभव नहीं है।
+यह package मौजूदा website को बदले बिना तीन नई files जोड़ता है:
 
-## Files
-- `functions/lib/registrar.js` — provider-neutral adapter
-- `functions/api/domains/search.js` — GET `/api/domains/search?domain=example.com`
+1. `migrations/0005_registrar_core.sql`
+2. `functions/lib/registrar-core.js`
+3. `functions/api/admin/registrar/operations.js`
 
-## GitHub में जोड़ना
-ZIP की directory structure के अनुसार files `main` branch में जोड़ें।
-यदि `functions/api/domains/search.js` पहले से है, तो पहले उसकी copy रखें और फिर
-इस package वाली file से replace करें। `functions/lib/registrar.js` नया file है।
+## लागू करने का क्रम
 
-## सुरक्षित व्यवहार
-- Domain validation और D1 catalogue lookup।
-- TLD `enabled=1` और `registrar_provider` configured न हो तो `NOT_CONFIGURED`।
-- Provider failure/invalid response पर `available:null`, कभी fake availability नहीं।
-- Provider endpoint HTTPS होना जरूरी।
-- Prices केवल integer paise और INR में स्वीकार।
+1. पहले GitHub में तीनों files को ठीक इसी path पर जोड़ें।
+2. Cloudflare D1 database `seven-domains-db` में `0005_registrar_core.sql` migration एक बार चलाएँ।
+3. Cloudflare Pages deployment सफल होने दें।
 
-## Cloudflare configuration — provider mapping के बाद ही
-- Secret: `REGISTRAR_API_TOKEN`
-- Variable: `REGISTRAR_API_BASE_URL` (HTTPS)
-- Variable: `REGISTRAR_SEARCH_PATH` (provider-specific path)
+## API
 
-**चेतावनी:** हर registrar का API अलग होता है। यह adapter केवल normalized
-contract समझता है। Registrar की official API documentation के अनुसार
-`registrar.js` में request/response mapping किए बिना token configure न करें।
-अनजान URL पर API token न भेजें।
+`POST /api/admin/registrar/operations`
 
-## Normalized contract
-POST `{REGISTRAR_API_BASE_URL}{REGISTRAR_SEARCH_PATH}`
-Headers: `Authorization: Bearer <token>`, `Content-Type: application/json`
-Body: `{"domain":"example.com"}`
+यह admin-authenticated, same-origin endpoint है। JSON body का उदाहरण:
 
-Expected response example (केवल schema example, वास्तविक price नहीं):
 ```json
 {
-  "available": true,
-  "currency": "INR",
-  "registrationPricePaise": 99900,
-  "renewalPricePaise": 119900
+  "domain": "example.com",
+  "operation": "register",
+  "termYears": 1
 }
 ```
 
-## Test
-Deploy के बाद `/api/domains/search?domain=example.com` खोलें।
-Provider/TLD enable न होने पर `NOT_CONFIGURED` expected है।
+इस समय enabled TLD होने पर भी endpoint केवल `dry_run` operation plan save करता है। यह कोई registrar/registry request नहीं भेजता, domain reserve/register नहीं करता, और live availability का दावा नहीं करता।
 
-## अभी शामिल नहीं
-Registrar-specific API mapping, actual registration/renewal/transfer, payment capture,
-refunds, DNS updates और registrar accreditation. इन सबके लिए provider selection,
-official API docs, test credentials और अलग tested order/payment flow चाहिए।
+## महत्वपूर्ण
+
+- `.com` और `.in` की वास्तविक registry access/accreditation अलग प्रक्रियाएँ हैं।
+- किसी TLD को enabled न करें जब तक वास्तविक अधिकृत registry connectivity और सही pricing प्रमाणित न हो।
+- कोई API token या secret इस package में hard-code नहीं है।
