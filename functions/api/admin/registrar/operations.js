@@ -1,8 +1,10 @@
 import { audit, bodyJson, fail, id, json, originOk } from "../../../lib/security.js";
 import { planRegistrarOperation, safeOperationResult } from "../../../lib/registrar-core.js";
 
-// This route is under /admin/* and is protected by the existing
-// functions/_middleware.js seven_admin_session cookie check.
+// Route: /admin/api/registrar/operations
+// Protected by functions/_middleware.js (seven_admin_session cookie, JSON 401 when missing).
+// Do NOT place this handler outside /admin/* — it performs no authentication of its own.
+// Dry-run only: no registry request is ever made from this file.
 
 export async function onRequestGet({ env }) {
   if (!env.DB) return json({ ok: false, error: "Database unavailable." }, 503);
