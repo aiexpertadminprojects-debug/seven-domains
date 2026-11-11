@@ -1,7 +1,9 @@
 import { audit, bodyJson, fail, id, json, originOk } from "../../../lib/security.js";
 import { planRegistrarOperation, safeOperationResult } from "../../../lib/registrar-core.js";
 
-// The existing _middleware.js protects /admin/* with the seven_admin_session cookie.
+// This route is under /admin/* and is protected by the existing
+// functions/_middleware.js seven_admin_session cookie check.
+
 export async function onRequestGet({ env }) {
   if (!env.DB) return json({ ok: false, error: "Database unavailable." }, 503);
   const result = await env.DB.prepare(
@@ -46,10 +48,8 @@ export async function onRequestPost({ request, env }) {
        execution_mode, requested_by, request_json, result_json)
      VALUES (?, ?, ?, ?, ?, 'blocked_no_registry_access',
              'dry_run', NULL, ?, ?)`
-  ).bind(
-    operationId, plan.domain, plan.tld, plan.operation, plan.termYears,
-    requestJson, resultJson
-  ).run();
+  ).bind(operationId, plan.domain, plan.tld, plan.operation,
+         plan.termYears, requestJson, resultJson).run();
 
   await env.DB.prepare(
     `INSERT INTO registrar_operation_events
@@ -61,8 +61,9 @@ export async function onRequestPost({ request, env }) {
     JSON.stringify({ executionMode: "dry_run", live: false })
   ).run();
 
-  await audit(env.DB, null, "registrar.operation.plan", "registrar_operation",
-    operationId, request.headers.get("CF-Connecting-IP"), env.TOKEN_PEPPER);
-
+  await audit(
+    env.DB, null, "registrar.operation.plan", "registrar_operation",
+    operationId, request.headers.get("CF-Connecting-IP"), env.TOKEN_PEPPER
+  );
   return json(safeOperationResult(operationId, plan), 201);
 }
