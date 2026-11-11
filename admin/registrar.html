@@ -88,26 +88,35 @@ footer{margin:28px 0;color:#98a3ad;font-size:10px}
 </main>
 <script>
 const $=id=>document.getElementById(id);
+async function registrarApi(options){
+  let response;
+  try{response=await fetch("/admin/api/registrar/operations",{credentials:"same-origin",redirect:"manual",...options,headers:{"Accept":"application/json",...(options&&options.headers)}})}
+  catch{throw new Error("Network error: could not reach the server.")}
+  if(response.type==="opaqueredirect"||(response.status>=300&&response.status<400))throw new Error("Session expired. Please sign in again at /admin/login.");
+  const text=await response.text();
+  const type=(response.headers.get("Content-Type")||"").toLowerCase();
+  if(!text.trim())throw new Error("Empty response from server (HTTP "+response.status+").");
+  if(!type.includes("application/json"))throw new Error(response.status===401?"Session expired. Please sign in again at /admin/login.":"Server returned a non-JSON response (HTTP "+response.status+").");
+  let data;try{data=JSON.parse(text)}catch{throw new Error("Invalid JSON from server (HTTP "+response.status+").")}
+  if(!response.ok||data.ok===false)throw new Error(data.error||data.message||data.status||"Request failed (HTTP "+response.status+").");
+  return data;
+}
 const esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function showMessage(message,type){$("message").className=type;$("message").textContent=message}
 async function loadHistory(){
   $("history").innerHTML='<p class="small">Loading…</p>';
   try{
-    const response=await fetch("/admin/api/registrar/operations",{credentials:"same-origin",headers:{"Accept":"application/json"}});
-    const data=await response.json();
-    if(!response.ok||!data.ok)throw new Error(data.error||"Could not load history.");
+    const data=await registrarApi();
     if(!data.operations?.length){$("history").innerHTML='<p class="small">No operations saved yet.</p>';return}
     $("history").innerHTML=data.operations.map(item=>'<div class="entry"><div><b>'+esc(item.domain_name)+'</b><small>'+esc(item.operation)+' · '+esc(item.tld)+' · '+esc(item.term_years)+' year(s)</small><small>'+esc(item.created_at)+'</small></div><span class="status">'+esc(item.status)+'</span></div>').join("");
   }catch(error){$("history").innerHTML='<p class="small" style="color:#a63f30">'+esc(error.message)+'</p>'}
 }
 $("operationForm").addEventListener("submit",async event=>{
   event.preventDefault();
-  const button=$("submitButton");button.disabled=true;button.textContent="Saving…";
+  const button=$("submitButton");if(button.disabled)return;button.disabled=true;button.textContent="Saving…";
   showMessage("Saving dry-run plan…","");
   try{
-    const response=await fetch("/admin/api/registrar/operations",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({domain:$("domain").value,operation:$("operation").value,termYears:Number($("termYears").value)})});
-    const data=await response.json();
-    if(!response.ok||!data.ok)throw new Error(data.error||data.message||data.status||"Could not save operation.");
+    const data=await registrarApi({method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:$("domain").value,operation:$("operation").value,termYears:Number($("termYears").value)})});
     showMessage("Plan saved. ID: "+data.operationId+". No registry command was sent and no domain was registered.","success");
     await loadHistory();
   }catch(error){showMessage(error.message,"error")}
