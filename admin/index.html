@@ -17,6 +17,7 @@
     <button class="nav-item active" data-view="overview"><span>▦</span> Overview</button>
     <button class="nav-item" data-view="hosting"><span>◫</span> Hosting plans</button>
     <button class="nav-item" data-view="domains"><span>◎</span> Domain pricing</button>
+    <button class="nav-item" data-view="registrar"><span>⌘</span> Registrar operations</button>
     <button class="nav-item" data-view="security"><span>◇</span> Security centre</button>
     <div class="side-bottom">
       <div class="preview-tag">PREVIEW MODE</div>
@@ -139,6 +140,25 @@
         <div class="actions"><button class="btn primary" type="submit">Save domain draft</button><button class="btn secondary" type="button" id="resetDomains">Reset</button></div>
         <p class="footnote">Do not publish or sell these prices until wholesale rates, taxes, currency conversion, premium-domain rules and registrar fees are confirmed.</p>
       </form>
+    </section>
+
+    <section class="view" id="view-registrar">
+      <div class="section-intro"><div><div class="eyebrow">INDEPENDENT REGISTRAR CORE</div><h2>Registrar operations</h2><p>Create and review domain operation plans. No registry command is sent in this stage.</p></div><span class="tag amber">Dry-run only</span></div>
+      <div class="registrar-grid">
+        <form class="panel" id="registrarForm">
+          <h3>Create operation plan</h3>
+          <label class="registrar-label">Domain name<input id="registrarDomain" type="text" placeholder="example.com" maxlength="253" required autocomplete="off"></label>
+          <div class="form-grid registrar-fields">
+            <label>Operation<select id="registrarOperation"><option value="check">Availability check plan</option><option value="register">Registration plan</option><option value="renew">Renewal plan</option><option value="transfer">Transfer plan</option><option value="update_nameservers">Nameserver update plan</option></select></label>
+            <label>Term (years)<input id="registrarTerm" type="number" min="1" max="10" value="1" required></label>
+          </div>
+          <button class="btn primary" type="submit" id="registrarSubmit">Create dry-run plan</button>
+          <p class="footnote">The selected extension must be enabled in the TLD catalogue. This is not a live availability check or registration.</p>
+          <div id="registrarMessage" class="registrar-message" role="status" aria-live="polite"></div>
+        </form>
+        <article class="panel"><div class="panel-head"><div><h3>Operation history</h3><p>Latest saved plans from the database</p></div><button class="btn secondary" type="button" id="refreshRegistrar">Refresh</button></div><div id="registrarHistory" class="registrar-history"><p class="hint">Open this section to load operations.</p></div></article>
+      </div>
+      <div class="panel registrar-warning"><b>Registry access not connected.</b> Live registration requires authorised registry/registrar access and verified credentials. No domain is registered by this tool.</div>
     </section>
 
     <section class="view" id="view-security">
