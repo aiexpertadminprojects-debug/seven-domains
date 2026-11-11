@@ -20,25 +20,35 @@ $("domainForm").addEventListener("submit",e=>{e.preventDefault();document.queryS
 $("resetDomains").addEventListener("click",()=>{tlds=DEFAULT_TLDS.map(x=>({...x}));localStorage.removeItem("sevenDomainsPhase2Tlds");renderTlds()});
 
 const registrarForm=$("registrarForm");
+async function registrarApi(options){
+  let response;
+  try{response=await fetch("/admin/api/registrar/operations",{credentials:"same-origin",redirect:"manual",...options,headers:{"Accept":"application/json",...(options&&options.headers)}})}
+  catch{throw new Error("Network error: could not reach the server.")}
+  if(response.type==="opaqueredirect"||(response.status>=300&&response.status<400))throw new Error("Session expired. Please sign in again at /admin/login.");
+  const text=await response.text();
+  const type=(response.headers.get("Content-Type")||"").toLowerCase();
+  if(!text.trim())throw new Error("Empty response from server (HTTP "+response.status+").");
+  if(!type.includes("application/json"))throw new Error(response.status===401?"Session expired. Please sign in again at /admin/login.":"Server returned a non-JSON response (HTTP "+response.status+").");
+  let data;try{data=JSON.parse(text)}catch{throw new Error("Invalid JSON from server (HTTP "+response.status+").")}
+  if(!response.ok||data.ok===false)throw new Error(data.error||data.message||data.status||"Request failed (HTTP "+response.status+").");
+  return data;
+}
 function safeText(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
 function registrarMessage(message,kind="info"){const box=$("registrarMessage");box.className="registrar-message "+kind;box.textContent=message}
 async function loadRegistrarHistory(){
   const target=$("registrarHistory");if(!target)return;target.innerHTML='<p class="hint">Loading operations…</p>';
   try{
-    const response=await fetch("/admin/api/registrar/operations",{credentials:"same-origin",headers:{"Accept":"application/json"}});
-    const data=await response.json();
-    if(!response.ok||!data.ok)throw new Error(data.error||"Could not load operation history.");
+    const data=await registrarApi();
     if(!data.operations?.length){target.innerHTML='<p class="hint">No registrar operations saved yet.</p>';return}
     target.innerHTML=data.operations.map(item=>'<div class="registrar-row"><div><b>'+safeText(item.domain_name)+'</b><small>'+safeText(item.operation)+' · '+safeText(item.tld)+' · '+safeText(item.term_years)+' year(s)</small></div><span class="registrar-status">'+safeText(item.status)+'</span><time>'+safeText(item.created_at)+'</time></div>').join("");
   }catch(error){target.innerHTML='<p class="registrar-error">'+safeText(error.message)+'</p>'}
 }
 if(registrarForm){
   registrarForm.addEventListener("submit",async event=>{
-    event.preventDefault();const button=$("registrarSubmit");button.disabled=true;button.textContent="Saving plan…";
+    event.preventDefault();const button=$("registrarSubmit");if(button.disabled)return;button.disabled=true;button.textContent="Saving plan…";
     registrarMessage("Submitting dry-run operation plan…");
     try{
-      const response=await fetch("/admin/api/registrar/operations",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({domain:$("registrarDomain").value,operation:$("registrarOperation").value,termYears:Number($("registrarTerm").value)})});
-      const data=await response.json();if(!response.ok||!data.ok)throw new Error(data.error||data.message||data.status||"Operation plan could not be saved.");
+      const data=await registrarApi({method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({domain:$("registrarDomain").value,operation:$("registrarOperation").value,termYears:Number($("registrarTerm").value)})});
       registrarMessage("Plan saved. ID: "+data.operationId+". No registry command was sent; no domain was registered.","success");await loadRegistrarHistory();
     }catch(error){registrarMessage(error.message,"error")}
     finally{button.disabled=false;button.textContent="Create dry-run plan"}
